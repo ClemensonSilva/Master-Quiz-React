@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import Button from '../ui/Button';
+import Button from '@/components/ui/button';
 
 
 const Header = ({ isLoggedIn = false, userType, userName }) => {
@@ -20,10 +20,10 @@ const Header = ({ isLoggedIn = false, userType, userName }) => {
           </div>
         ) : (
           <div className="flex space-x-4">
-            <Link href="/cadastro">
+            <Link href="/auth/cadastro">
                 <Button variant="primary" className='border border-gray-600' size="sm">Cadastrar-se</Button>
             </Link>
-            <Link href="/login">
+            <Link href="/auth/login">
                 <Button variant="outline" size="sm">Login</Button>
             </Link>
           </div>

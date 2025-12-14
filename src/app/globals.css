@@ -1,15 +1,12 @@
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Estilos globais */
 body {
-  font-family: 'Inter', Arial, sans-serif; 
+  /* A cor de fundo principal da aplicação */
+  @apply  text-gray-100;
   
+  /* Garante altura mínima */
   min-height: 100vh;
-  
-  background-color: #111827; 
 }

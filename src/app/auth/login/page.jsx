@@ -9,6 +9,7 @@ import Input from '@/components/ui/input';
 import Button from '@/components/ui/button';
 import Alert from '@/components/ui/alertas'; 
 import { apiFetch } from '@/services/api';
+import { parseJwt } from '@/utils/auth'; 
 
 export default function LoginPage() {
   const router = useRouter();
@@ -55,18 +56,29 @@ export default function LoginPage() {
         }
 
         if (token) {
+          if (token) {
             localStorage.setItem('authToken', token);
             
+            const decoded = parseJwt(token);
+            
+            const userEmail = decoded?.sub ;  // acessa o email do usuário
+            
+            if (userEmail) {
+                localStorage.setItem('userEmail', userEmail); 
+            }
+
             const userType = data.userType || 'aluno'; 
             localStorage.setItem('userType', userType);
-
             setAlert({ type: "success", message: "Login realizado com sucesso!" });
+            
 
             if (userType === 'professor') {
-                router.push('/professor/dashboard-professor');
+                router.push('/dashboard/professor');
             } else {
-                router.push('/aluno/dashboard-aluno');
+                router.push('/dashboard/aluno');
             }
+
+            
         } else {
             throw new Error("Token não encontrado na resposta do servidor.");
         }
@@ -76,11 +88,11 @@ export default function LoginPage() {
         try {
             const errorData = await response.json();
             if(errorData.message) msg = errorData.message;
-        } catch(e) { /* corpo vazio */ }
+        } catch(e) {  }
         
         setAlert({ type: "error", message: msg });
       }
-
+    }
     } catch (networkError) {
       console.error(networkError);
       setAlert({ type: "error", message: "Erro ao processar login. Verifique o console." });

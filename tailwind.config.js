@@ -1,14 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        // Cores extraídas do seu HTML original
         'quiz-purple': '#7F56D9',
         'quiz-dark': '#101828',
         'quiz-light-gray': '#F9FAFB',
@@ -16,7 +13,8 @@ module.exports = {
         'quiz-progress': '#374151',
       },
       fontFamily: {
-        'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Mapeia a classe 'font-sans' para a variável CSS que configuraremos no layout
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

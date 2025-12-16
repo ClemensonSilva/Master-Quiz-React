@@ -1,7 +1,7 @@
 'use client';
 import DisciplinesLoading from '../display/card-isLoading';
 import DisciplinesEmpty from '../display/card-isEmpty';
-import DisciplinesGrid from './disciplina-grid';
+import DisciplinesGrid from './disciplina-section';
 // Esse componente orquestra o estado de exibição das disciplinas
 export default function DisciplinesState({
     loading,

@@ -73,9 +73,9 @@ export default function LoginPage() {
             
 
             if (userType === 'professor') {
-                router.push('/dashboard/professor');
+                router.push('/professor/dashboard');
             } else {
-                router.push('/dashboard/aluno');
+                router.push('/aluno/dashboard');
             }
 
             

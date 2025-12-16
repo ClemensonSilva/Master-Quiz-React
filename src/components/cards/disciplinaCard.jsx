@@ -15,7 +15,7 @@ const DisciplineCard = ({ disciplina }) => {
         {disciplina.descricao || 'Descrição da disciplina'}
       </p>
       
-      <Link href={`/disciplina/${disciplina.id} `}>
+      <Link href={`/disciplinas/${disciplina.id} `}>
         <Button variant="primary" fullWidth size="sm">
           Detalhes
         </Button>

@@ -39,12 +39,12 @@ export default function DashboardAlunoPage() {
         if (!alunoResponse.ok) throw new Error('Falha ao carregar perfil.');
 
         const alunoData = await alunoResponse.json();
-        localStorage.setItem('userId', alunoData.id); // <--- ISSO SALVA O ID NO NAVEGADOR
+        localStorage.setItem('userId', alunoData.id); 
         setAluno(alunoData);
 
       } catch (err) {
-        console.error("Erro dashboard:", err);
         setError("Erro ao carregar perfil.");
+        router.push('/auth/login');
       } finally {
         setLoadingInitial(false);
       }
@@ -122,9 +122,6 @@ export default function DashboardAlunoPage() {
               />
             </div>
 
-            <Link href="/aluno/estatisticas">
-              <Button variant="purple" size="sm">Estatísticas</Button>
-            </Link>
             <Link href="/aluno/matricula">
               <Button variant="purple" size="sm">Matrícula</Button>
             </Link>
@@ -137,7 +134,6 @@ export default function DashboardAlunoPage() {
             <h3 className="text-2xl font-semibold text-gray-900">Minhas Disciplinas</h3>
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} isSearching={isSearching} />
           </div>
-            // area para carregar disciplinas e faz uso de condicionais
           <DisciplinesState
             loading={loadingInitial}
             hasAluno={!!aluno.id}
@@ -149,7 +145,8 @@ export default function DashboardAlunoPage() {
               empty: 'Você ainda não possui disciplinas cadastradas.',
               search: (term) => `Nenhuma disciplina chamada "${term}" foi encontrada.`,
             }}
-          />        </section>
+          />       
+          </section>
 
       </main>
       <Footer />

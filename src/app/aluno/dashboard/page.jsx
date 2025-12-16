@@ -39,6 +39,7 @@ export default function DashboardAlunoPage() {
         if (!alunoResponse.ok) throw new Error('Falha ao carregar perfil.');
 
         const alunoData = await alunoResponse.json();
+        localStorage.setItem('userId', alunoData.id); // <--- ISSO SALVA O ID NO NAVEGADOR
         setAluno(alunoData);
 
       } catch (err) {

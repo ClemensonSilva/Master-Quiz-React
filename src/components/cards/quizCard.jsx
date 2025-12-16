@@ -1,6 +1,7 @@
 import React from 'react';
-
-const QuizCard = ({ title, progress, grade, reviewDate }) => {
+import Link from 'next/link';
+import Button from '@/components/ui/button';
+const QuizCard = ({id, disciplinaId, title, progress, grade, reviewDate }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex flex-col gap-3">
       <h3 className="font-bold text-lg text-gray-800">{title}</h3>
@@ -18,10 +19,11 @@ const QuizCard = ({ title, progress, grade, reviewDate }) => {
         <p>Nota: {grade}/10</p>
         <p>Data revisão: {reviewDate}</p>
       </div>
-
-      <button className="bg-black text-white text-xs py-2 px-4 rounded-full w-max mt-2 hover:bg-gray-800 transition">
-        Responder
-      </button>
+  <Link href={`/quiz/${id}/answer?disciplinaId=${disciplinaId}`}>     
+       <Button variant="primary" fullWidth size="sm">
+          Responder
+        </Button>
+      </Link>
     </div>
   );
 };

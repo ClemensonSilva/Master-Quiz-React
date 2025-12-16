@@ -10,19 +10,15 @@ import { apiFetch } from '@/services/api';
 export default function DashboardDisciplinaPage() {
   const router = useRouter();
   const params = useParams();
-  const disciplinaId = params?.id; // O nome do arquivo é [id], então o param é 'id'
+  const disciplinaId = params?.id; 
 
-  // Estados de Dados
   const [aluno, setAluno] = useState({ nome: '', id: null });
   const [quizzes, setQuizzes] = useState([]);
   const [disciplina, setDisciplina] = useState(null);
 
-  // Estados de Controle
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   
-  // Como removemos a lógica de busca separada, usamos o loading geral ou criamos um isSearching só pra input
-  // Para simplificar, vou filtrar no front-end (já que os dados já estão carregados)
 
   const urlDisciplina = `/disciplinas/${disciplinaId}`;
   const urlQuizzes = `/disciplinas/${disciplinaId}/quizes`;
@@ -55,12 +51,13 @@ export default function DashboardDisciplinaPage() {
             const alunoData = await resAluno.json();
             const discData = await resDisc.json();
             const quizData = await resQuiz.json();
-
+            console.log('Quiz Data:', quizData);
             const quizzesFormatados = quizData.map(q => ({
                 id: q.id,
                 title: q.titulo, 
                 progress: q.progresso || 0, 
                 grade: q.nota || 0,
+                disciplinaId: disciplinaId,
                 reviewDate: q.dataRevisao || 'Pendente' 
             }));
 
@@ -103,7 +100,7 @@ export default function DashboardDisciplinaPage() {
           <QuizzesState
             loading={loading}
             hasAluno={!!aluno.id}
-            quizzes={quizzesFiltrados} // Passamos a lista já filtrada
+            quizzes={quizzesFiltrados} 
             searchTerm={searchTerm}
             texts={{
               loading: 'Carregando seus quizzes...',

@@ -67,7 +67,6 @@ export default function DashboardAlunoPage() {
   async function fetchDisciplinas(alunoId, query) {
     try {
       setIsSearching(true);
-
       const queryParam = query ? `?nome=${encodeURIComponent(query)}` : '';
       const url = `/usuarios/alunos/${alunoId}/disciplinas${queryParam}`;
 

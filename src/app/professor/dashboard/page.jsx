@@ -10,7 +10,7 @@ import DashboardTemplate from '@/components/templates/dashboardTemplate';
 
 export default function DashboardAlunoPage() {
   const router = useRouter();
-
+    // mantive como aluno mesmo, corrigir depois
   const [aluno, setAluno] = useState({ nome: '', id: null, avatar: null, type: 'aluno' });
   const [disciplinas, setDisciplinas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,33 +19,33 @@ export default function DashboardAlunoPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchAlunoData() {
+    async function fetchProfessorData() {
       try {
         const userEmail = localStorage.getItem('userEmail');
         if (!userEmail) throw new Error("Email não encontrado.");
 
-        const alunoResponse = await apiFetch(`/usuarios/alunos/email/${encodeURIComponent(userEmail)}`);
+        const professorResponse = await apiFetch(`/usuarios/professores/email/${encodeURIComponent(userEmail)}`);
 
-        if (alunoResponse.status === 401) {
+        if (professorResponse.status === 401) {
             router.push('/auth/login'); 
             return;
         }
-        if (!alunoResponse.ok) throw new Error('Falha ao carregar perfil.');
-
-        const alunoData = await alunoResponse.json();
-        localStorage.setItem('userId', alunoData.id); 
-        setAluno({ ...alunoData, type: 'aluno' });
+        if (!professorResponse.ok) throw new Error('Falha ao carregar perfil.');
+        const professorData = await professorResponse.json();
+        localStorage.setItem('userId', professorData.id); 
+        setAluno({ ...professorData, type: 'professor' });
 
       } catch (err) {
         setError("Erro ao carregar perfil.");
         router.push('/auth/login');
+        console.error(err);
       } finally {
         setLoadingInitial(false);
       }
     }
-    fetchAlunoData();
+    fetchProfessorData();
   }, [router]);
-
+  // mantive como aluno mesmo, corrigir depois
   useEffect(() => {
     if (!aluno.id) return;
     const delayDebounceFn = setTimeout(() => {
@@ -54,11 +54,11 @@ export default function DashboardAlunoPage() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, aluno.id]);
 
-  async function fetchDisciplinas(alunoId, query) {
+  async function fetchDisciplinas(professorId, query) {
     try {
       setIsSearching(true);
       const queryParam = query ? `?nome=${encodeURIComponent(query)}` : '';
-      const url = `/usuarios/alunos/${alunoId}/disciplinas${queryParam}`;
+      const url = `/usuarios/professores/${professorId}/disciplinas${queryParam}`;
       const response = await apiFetch(url);
 
       if (response.ok) {
@@ -91,8 +91,8 @@ export default function DashboardAlunoPage() {
         setSearchTerm={setSearchTerm}
         isSearching={isSearching}
         actionButton={
-            <Link href="/aluno/matricula">
-              <Button variant="purple" size="sm">Matrícula</Button>
+            <Link href="/professor/disciplina">
+              <Button variant="purple" size="sm">Adicionar Disciplina</Button>
             </Link>
         }
     >

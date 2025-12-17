@@ -67,12 +67,12 @@ export default function LoginPage() {
                 localStorage.setItem('userEmail', userEmail); 
             }
 
-            const userType = data.userType || 'aluno'; 
+            const userType = data.userType || decoded?.role || 'aluno'; 
             localStorage.setItem('userType', userType);
             setAlert({ type: "success", message: "Login realizado com sucesso!" });
-            
+            console.log("Tipo de usuário:", userType);
 
-            if (userType === 'professor') {
+            if (userType == 'ROLE_PROFESSOR') {
                 router.push('/professor/dashboard');
             } else {
                 router.push('/aluno/dashboard');

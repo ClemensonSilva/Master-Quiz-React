@@ -29,14 +29,14 @@ export default function QuizCard({
       
       <div className="flex space-x-2 mt-auto">
         {showDetails && (
-          <Link href={`/professor/quiz/${quiz.id}/relatorio`} className="flex-1">
+          <Link href={`/prof/quiz/${quiz.id}/relatorio`} className="flex-1">
             <Button variant="dark" fullWidth size="sm">
               Detalhes
             </Button>
           </Link>
         )}
         {showEdit && (
-          <Link href={`/professor/quiz/${quiz.id}/questoes`} className="flex-1">
+          <Link href={`/prof/quiz/${quiz.id}/questoes`} className="flex-1">
             <Button variant="purple" fullWidth size="sm">
               Editar
             </Button>

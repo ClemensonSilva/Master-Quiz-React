@@ -136,7 +136,7 @@ export default function DashboardProfessor() {
           showSearch={true}
           showButton={true}
           buttonText="Cadastrar Disciplina"
-          buttonHref="/professor/disciplinas/cadastrar"
+          buttonHref="/prof/disciplina/cadastro"
           buttonVariant='outline'
         />
 

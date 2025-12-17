@@ -56,7 +56,7 @@ export default function CadastroDisciplina() {
       
       // Redireciona após 2 segundos
       setTimeout(() => {
-        router.push('/professor/dashboard');
+        router.push('/prof/dashboard');
       }, 2000);
       
     } catch (error) {
@@ -107,7 +107,7 @@ export default function CadastroDisciplina() {
               />
 
               <div className="flex space-x-4">
-                <Link href="/professor/dashboard" className="flex-1">
+                <Link href="/prof/dashboard" className="flex-1">
                   <Button
                     variant="outline"
                     fullWidth

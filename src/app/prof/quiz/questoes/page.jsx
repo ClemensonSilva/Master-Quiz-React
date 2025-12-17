@@ -89,15 +89,15 @@ export default function Questoes() {
   };
 
   const handleEdit = (questaoId) => {
-    router.push(`/professor/quiz/${quizId}/questoes/${questaoId}/editar`);
+    router.push(`/prof/quiz/${quizId}/questoes/${questaoId}/editar`);
   };
 
   const handleAddQuestao = () => {
-    router.push(`/professor/quiz/${quizId}/questoes/nova`);
+    router.push(`/prof/quiz/${quizId}/questoes`);
   };
 
   const handleBack = () => {
-    router.push(`/professor/quiz/${quizId}/detalhes`);
+    router.push(`/prof/quiz/${quizId}/quiz-relatorio`);
   };
 
   return (

@@ -70,9 +70,9 @@ export default function CadastroNovoQuiz() {
       // Redireciona para página de questões após 2 segundos
       setTimeout(() => {
         if (disciplinaId) {
-          router.push(`/professor/disciplinas/${disciplinaId}/quiz/lista`);
+          router.push(`/prof/disciplinas/${disciplinaId}/lista`);
         } else {
-          router.push('/professor/quiz/lista');
+          router.push('/prof/dashboard');
         }
       }, 2000);
       

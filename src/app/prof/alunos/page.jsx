@@ -55,7 +55,7 @@ export default function Alunos() {
   }, [searchTerm, alunos]);
 
   const handleBack = () => {
-    router.push(`/professor/disciplinas/${disciplinaId}`);
+    router.push(`/prof/disciplinas/${disciplinaId}`);
   };
 
   return (

@@ -66,7 +66,8 @@ export default function LoginPage() {
             if (userEmail) {
                 localStorage.setItem('userEmail', userEmail); 
             }
-
+            console.log("Role do usuário decodificado:", decoded?.role);
+            localStorage.setItem('userRole', decoded?.role); 
             const userType = data.userType || decoded?.role || 'aluno'; 
             localStorage.setItem('userType', userType);
             setAlert({ type: "success", message: "Login realizado com sucesso!" });

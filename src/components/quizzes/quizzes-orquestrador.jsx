@@ -9,6 +9,8 @@ export default function QuizzesState({
     quizzes,
     searchTerm,
     isSearching,
+    linkAcao,
+    userType,
     texts = {},
 }) {
     if (loading && !hasAluno) {
@@ -31,6 +33,8 @@ export default function QuizzesState({
         <QuizzesGrid
             quizzes={quizzes}
             isSearching={isSearching}
+            linkAcao={linkAcao}
+            userType={userType}
         />
     );
 }

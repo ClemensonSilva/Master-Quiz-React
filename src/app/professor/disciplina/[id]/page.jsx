@@ -14,13 +14,15 @@ export default function DashboardDisciplinaPage() {
   const params = useParams();
   const disciplinaId = params?.id;
 
-  const [aluno, setAluno] = useState({ nome: '', id: null });
+  // 1. MUDANÇA: Estado genérico para "usuario" em vez de "aluno"
+  const [usuario, setUsuario] = useState({ nome: '', id: null });
+  const [tipoUsuario, setTipoUsuario] = useState(null); 
+  
   const [quizzes, setQuizzes] = useState([]);
   const [disciplina, setDisciplina] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-
 
   const urlDisciplina = `/disciplinas/${disciplinaId}`;
   const urlQuizzes = `/disciplinas/${disciplinaId}/quizes`;
@@ -32,39 +34,54 @@ export default function DashboardDisciplinaPage() {
       try {
         setLoading(true);
         const userEmail = localStorage.getItem('userEmail');
+        
+        // 2. MUDANÇA: Identifica o tipo salvo no login (padrão ALUNO se não houver)
+        // Certifique-se de salvar 'userRole' no seu Login!
+        const roleSalva = localStorage.getItem('userRole') || 'ALUNO';
+        setTipoUsuario(roleSalva);
 
         if (!userEmail) {
           router.push('/auth/login');
           return;
         }
 
-        const [resAluno, resDisc, resQuiz] = await Promise.all([
-          apiFetch(`/usuarios/alunos/email/${encodeURIComponent(userEmail)}`),
+        // 3. MUDANÇA: Define a URL baseada no tipo de usuário
+        let urlUsuario = '';
+        if (roleSalva === 'ROLE_PROFESSOR') {
+            urlUsuario = `/usuarios/professores/email/${encodeURIComponent(userEmail)}`;
+        } else {
+            urlUsuario = `/usuarios/alunos/email/${encodeURIComponent(userEmail)}`;
+        }
+
+        const [resUser, resDisc, resQuiz] = await Promise.all([
+          apiFetch(urlUsuario),
           apiFetch(urlDisciplina),
           apiFetch(urlQuizzes)
         ]);
 
-        if (resAluno.status === 401 || resDisc.status === 401 || resQuiz.status === 401) {
+        if (resUser.status === 401 || resDisc.status === 401 || resQuiz.status === 401) {
           router.push('/auth/login');
           return;
         }
 
-        if (resAluno.ok && resDisc.ok && resQuiz.ok) {
-          const alunoData = await resAluno.json();
+        if (resUser.ok && resDisc.ok && resQuiz.ok) {
+          const userData = await resUser.json();
           const discData = await resDisc.json();
           const quizData = await resQuiz.json();
-          console.log('Quiz Data:', alunoData);
+          
+          console.log('Dados do Usuário:', userData);
+
           const quizzesFormatados = quizData.map(q => ({
             id: q.id,
             title: q.titulo,
-            progress: q.progresso || 0,
-            grade: q.nota || 0,
+            progress: roleSalva === 'ROLE_PROFESSOR' ? 0 : (q.progresso || 0),
+            grade: roleSalva === 'ROLE_PROFESSOR' ? 0 : (q.nota || 0),
             disciplinaId: disciplinaId,
             reviewDate: q.dataRevisao || 'Pendente'
           }));
 
-          localStorage.setItem('userId', alunoData.id);
-          setAluno(alunoData);
+          localStorage.setItem('userId', userData.id);
+          setUsuario(userData);
           setDisciplina(discData);
           setQuizzes(quizzesFormatados);
         }
@@ -85,7 +102,12 @@ export default function DashboardDisciplinaPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header isLoggedIn={true} userName={aluno.nome || 'Professor'} userType="professor" />
+      <Header 
+        isLoggedIn={true} 
+        userName={usuario.nome || 'Usuário'} 
+        // Passa minúsculo para o Header (padrão visual)
+        userType={tipoUsuario === 'PROFESSOR' ? 'professor' : 'aluno'} 
+      />
 
       <main className="container mx-auto max-w-6xl px-6 py-8 flex-grow">
         <section className="mb-8 flex items-center justify-between">
@@ -99,22 +121,29 @@ export default function DashboardDisciplinaPage() {
             )}
           </div>
 
-          <Link href={`/disciplinas/${disciplinaId}/quiz/cadastro`}>
-            <Button variant="purple" size="md">
-              Adicionar Quiz à disciplina
-            </Button>
-          </Link>
+          {/* 4. MUDANÇA: Botão aparece APENAS para Professor */}
+          {tipoUsuario === 'PROFESSOR' && (
+            <Link href={`/disciplinas/${disciplinaId}/quiz/cadastro`}>
+                <Button variant="purple" size="md">
+                Adicionar Quiz à disciplina
+                </Button>
+            </Link>
+          )}
         </section>
+
         <section className="mt-10">
           <QuizzesState
             loading={loading}
-            hasAluno={!!aluno.id}
+            hasUser={!!usuario.id}
             quizzes={quizzesFiltrados}
             searchTerm={searchTerm}
+            userType={tipoUsuario} 
             texts={{
-              loading: 'Carregando seus quizzes...',
-              empty: 'Nenhum quiz encontrado nesta disciplina.',
-              search: (term) => `Não encontramos quizzes com o termo "${term}".`,
+              loading: 'Carregando dados...',
+              empty: tipoUsuario === 'PROFESSOR' 
+                ? 'Nenhum quiz cadastrado nesta disciplina.'
+                : 'Nenhum quiz disponível para você.',
+              search: (term) => `Não encontramos nada com "${term}".`,
             }}
           />
         </section>

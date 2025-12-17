@@ -3,14 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import QuizEngine from '@/components/quizzes/quiz-engine';
 import { apiFetch } from '@/services/api';
-import { useSearchParams } from 'next/navigation';
 export default function PlayQuizPage() {
     const params = useParams();
     const router = useRouter();
-    const searchParams = useSearchParams(); 
 
-    const quizId = params?.id;
-    const disciplinaId = searchParams.get('disciplinaId');
+    const quizId = params?.quizId;
+    const disciplinaId = params.id
     const [quiz, setQuiz] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -19,10 +17,8 @@ export default function PlayQuizPage() {
         const storedUserId = localStorage.getItem('userId'); 
         
         if (storedUserId) {
-            // Garante que o ID do aluno seja armazenado como número (se for o tipo esperado)
             setCurrentUserId(parseInt(storedUserId)); 
         } else {
-            // Se não tiver ID, redireciona, mas continua tentando carregar o quiz por segurança
             console.error("userId não encontrado no localStorage. Redirecionando...");
             router.push('/auth/login');
             return;

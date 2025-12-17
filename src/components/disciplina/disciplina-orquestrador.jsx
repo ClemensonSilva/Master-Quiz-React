@@ -8,6 +8,7 @@ export default function DisciplinesState({
     hasAluno,
     urlParaAcessar,
     disciplinas,
+    professorId,
     searchTerm,
     isSearching,
     texts = {},
@@ -33,6 +34,7 @@ export default function DisciplinesState({
             disciplinas={disciplinas}
             isSearching={isSearching}
             urlParaAcessar={urlParaAcessar}
+            professorId={professorId}
         />
     );
 }

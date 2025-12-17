@@ -102,6 +102,7 @@ export default function DashboardAlunoPage() {
             searchTerm={searchTerm}
             isSearching={isSearching}
             urlParaAcessar={`/professor/disciplina/`}
+            professorId={aluno.id}
             texts={{
               loading: 'Carregando suas disciplinas...',
               empty: 'Você ainda não possui disciplinas cadastradas.',

@@ -2,6 +2,7 @@ import React from 'react';
 
 const Button = ({ 
   children, 
+  onClick = () => {},
   variant = 'primary', 
   size = 'md', 
   fullWidth = false,
@@ -29,6 +30,7 @@ const Button = ({
     <button 
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthStyle} ${className}`}
       {...props}
+      onClick={onClick}
     >
       {children}
     </button>

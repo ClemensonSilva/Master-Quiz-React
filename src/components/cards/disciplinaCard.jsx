@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/button';
 import ProgressBar from '@/components/display/progressBar'; 
-const DisciplineCard = ({ disciplina }) => {
+const DisciplineCard = ({ disciplina, linkDestino }) => {
   // Dados esperados: { id, nome, progresso, descricao }
   return (
     <div className="bg-quiz-light-gray p-5 rounded-lg border border-gray-200 flex flex-col h-full">
@@ -15,7 +15,7 @@ const DisciplineCard = ({ disciplina }) => {
         {disciplina.descricao || 'Descrição da disciplina'}
       </p>
       
-      <Link href={`/disciplinas/${disciplina.id} `}>
+      <Link href={`${linkDestino}/${disciplina.id}`}>
         <Button variant="primary" fullWidth size="sm">
           Detalhes
         </Button>

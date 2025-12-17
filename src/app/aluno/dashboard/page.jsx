@@ -102,6 +102,7 @@ export default function DashboardAlunoPage() {
             disciplinas={disciplinas}
             searchTerm={searchTerm}
             isSearching={isSearching}
+            urlParaAcessar="/disciplinas"
             texts={{
               loading: 'Carregando suas disciplinas...',
               empty: 'Você ainda não possui disciplinas cadastradas.',

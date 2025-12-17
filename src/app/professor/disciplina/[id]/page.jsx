@@ -4,13 +4,15 @@ import { useParams, useRouter } from 'next/navigation';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import Button from '@/components/ui/button';
+import Link from 'next/link';
 import QuizzesState from '@/components/quizzes/quizzes-orquestrador';
 import { apiFetch } from '@/services/api';
 
 export default function DashboardDisciplinaPage() {
   const router = useRouter();
   const params = useParams();
-  const disciplinaId = params?.id; 
+  const disciplinaId = params?.id;
 
   const [aluno, setAluno] = useState({ nome: '', id: null });
   const [quizzes, setQuizzes] = useState([]);
@@ -18,7 +20,7 @@ export default function DashboardDisciplinaPage() {
 
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
 
   const urlDisciplina = `/disciplinas/${disciplinaId}`;
   const urlQuizzes = `/disciplinas/${disciplinaId}/quizes`;
@@ -30,42 +32,42 @@ export default function DashboardDisciplinaPage() {
       try {
         setLoading(true);
         const userEmail = localStorage.getItem('userEmail');
-        
+
         if (!userEmail) {
-           router.push('/auth/login'); 
-           return;
+          router.push('/auth/login');
+          return;
         }
 
         const [resAluno, resDisc, resQuiz] = await Promise.all([
-            apiFetch(`/usuarios/alunos/email/${encodeURIComponent(userEmail)}`),
-            apiFetch(urlDisciplina),
-            apiFetch(urlQuizzes)
+          apiFetch(`/usuarios/alunos/email/${encodeURIComponent(userEmail)}`),
+          apiFetch(urlDisciplina),
+          apiFetch(urlQuizzes)
         ]);
 
         if (resAluno.status === 401 || resDisc.status === 401 || resQuiz.status === 401) {
-            router.push('/auth/login');
-            return;
+          router.push('/auth/login');
+          return;
         }
 
         if (resAluno.ok && resDisc.ok && resQuiz.ok) {
-            const alunoData = await resAluno.json();
-            const discData = await resDisc.json();
-            const quizData = await resQuiz.json();
-            console.log('Quiz Data:', alunoData);
-            const quizzesFormatados = quizData.map(q => ({
-                id: q.id,
-                title: q.titulo, 
-                progress: q.progresso || 0, 
-                grade: q.nota || 0,
-                disciplinaId: disciplinaId,
-                reviewDate: q.dataRevisao || 'Pendente' 
-            }));
+          const alunoData = await resAluno.json();
+          const discData = await resDisc.json();
+          const quizData = await resQuiz.json();
+          console.log('Quiz Data:', alunoData);
+          const quizzesFormatados = quizData.map(q => ({
+            id: q.id,
+            title: q.titulo,
+            progress: q.progresso || 0,
+            grade: q.nota || 0,
+            disciplinaId: disciplinaId,
+            reviewDate: q.dataRevisao || 'Pendente'
+          }));
 
-            localStorage.setItem('userId', alunoData.id);
-            setAluno(alunoData);
-            setDisciplina(discData);
-            setQuizzes(quizzesFormatados);
-        } 
+          localStorage.setItem('userId', alunoData.id);
+          setAluno(alunoData);
+          setDisciplina(discData);
+          setQuizzes(quizzesFormatados);
+        }
 
       } catch (error) {
         console.error("Erro fatal na conexão:", error);
@@ -77,30 +79,37 @@ export default function DashboardDisciplinaPage() {
     carregarTudo();
   }, [disciplinaId, router]);
 
-  const quizzesFiltrados = quizzes.filter(q => 
+  const quizzesFiltrados = quizzes.filter(q =>
     q.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header isLoggedIn={true} userName={aluno.nome || 'Aluno'} userType="aluno" />
+      <Header isLoggedIn={true} userName={aluno.nome || 'Professor'} userType="professor" />
 
       <main className="container mx-auto max-w-6xl px-6 py-8 flex-grow">
-        <section className="mb-8">
-          {loading ? (
-            <div className="h-10 w-1/3 bg-gray-200 animate-pulse rounded mb-2"></div>
-          ) : (
-            <h1 className="text-3xl font-bold text-gray-900">
-              {disciplina?.nome || 'Disciplina'}
-            </h1>
-          )}
-        </section>
+        <section className="mb-8 flex items-center justify-between">
+          <div>
+            {loading ? (
+              <div className="h-10 w-48 bg-gray-200 animate-pulse rounded"></div>
+            ) : (
+              <h1 className="text-3xl font-bold text-gray-900">
+                {disciplina?.nome || 'Disciplina'}
+              </h1>
+            )}
+          </div>
 
+          <Link href={`/disciplinas/${disciplinaId}/quiz/cadastro`}>
+            <Button variant="purple" size="md">
+              Adicionar Quiz à disciplina
+            </Button>
+          </Link>
+        </section>
         <section className="mt-10">
           <QuizzesState
             loading={loading}
             hasAluno={!!aluno.id}
-            quizzes={quizzesFiltrados} 
+            quizzes={quizzesFiltrados}
             searchTerm={searchTerm}
             texts={{
               loading: 'Carregando seus quizzes...',

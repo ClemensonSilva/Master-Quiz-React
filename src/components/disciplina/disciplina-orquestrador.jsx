@@ -6,6 +6,7 @@ import DisciplinesGrid from './disciplina-section';
 export default function DisciplinesState({
     loading,
     hasAluno,
+    urlParaAcessar,
     disciplinas,
     searchTerm,
     isSearching,
@@ -31,6 +32,7 @@ export default function DisciplinesState({
         <DisciplinesGrid
             disciplinas={disciplinas}
             isSearching={isSearching}
+            urlParaAcessar={urlParaAcessar}
         />
     );
 }

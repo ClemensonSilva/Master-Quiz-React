@@ -2,13 +2,11 @@
 
 import { useState } from 'react';
 import Input from '@/components/ui/input';
-import Select from '@/components/ui/select';
 import Button from '@/components/ui/button';
 import Card from '@/components/display/card';
 
 export default function QuizForm({ 
   initialData = {},
-  disciplinas = [],
   onSubmit,
   onCancel,
   loading = false,
@@ -53,19 +51,9 @@ export default function QuizForm({
           disabled={loading}
         />
 
-        <Select
-          label="Disciplina"
-          name="disciplina"
-          value={formData.disciplina}
-          onChange={handleSelectChange}
-          options={disciplinas}
-          required
-          disabled={loading}
-        />
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Descrição (Opcional)
+            Descrição
           </label>
           <textarea
             name="descricao"
@@ -78,19 +66,21 @@ export default function QuizForm({
         </div>
 
         <div className="flex space-x-4 pt-4">
-          <button
+         
+          <Button
             type="button"
             onClick={onCancel}
-            className="flex-1 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50"
+            variant="outline"
+            className="flex-1"
             disabled={loading}
           >
             Cancelar
-          </button>
+          </Button>
+          
           <Button
-            variant="dark"
-            fullWidth
             type="submit"
             disabled={loading}
+            
           >
             {loading ? 'Processando...' : submitText}
           </Button>

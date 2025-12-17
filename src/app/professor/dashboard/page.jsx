@@ -71,8 +71,7 @@ export default function DashboardAlunoPage() {
       setIsSearching(false);
     }
   }
-
-  // Tratamento de Erro Fatal
+// TODO usar a url como fonte da verdade, adicionar o id do professor na url
   if (error) {
     return (
       <div className="flex flex-col min-h-screen justify-center items-center">
@@ -91,8 +90,8 @@ export default function DashboardAlunoPage() {
         setSearchTerm={setSearchTerm}
         isSearching={isSearching}
         actionButton={
-            <Link href="/professor/disciplina">
-              <Button variant="purple" size="sm">Adicionar Disciplina</Button>
+            <Link href={`/professor/${aluno.id}/disciplina/cadastro`}>
+              <Button variant="purple" size="md">Adicionar Disciplina</Button>
             </Link>
         }
     >
@@ -102,6 +101,7 @@ export default function DashboardAlunoPage() {
             disciplinas={disciplinas}
             searchTerm={searchTerm}
             isSearching={isSearching}
+            urlParaAcessar={`/professor/disciplina/`}
             texts={{
               loading: 'Carregando suas disciplinas...',
               empty: 'Você ainda não possui disciplinas cadastradas.',

@@ -10,6 +10,7 @@ export default function QuizzesState({
     searchTerm,
     isSearching,
     linkAcao,
+    onDelete,
     userType,
     texts = {},
 }) {
@@ -35,6 +36,7 @@ export default function QuizzesState({
             isSearching={isSearching}
             linkAcao={linkAcao}
             userType={userType}
+            onDelete={onDelete}
         />
     );
 }

@@ -14,7 +14,7 @@ const Header = ({ isLoggedIn = false, userType, userName }) => {
         {isLoggedIn ? (
           <div className="flex items-center gap-4">
              <span className="hidden md:inline text-sm font-medium">{userName}</span>
-             <Link href="/logout">
+             <Link href="/auth/logout">
                 <Button variant="outline" size="sm">Sair</Button>
              </Link>
           </div>

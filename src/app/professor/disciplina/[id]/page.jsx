@@ -148,11 +148,18 @@ const handleDeleteQuiz = async (quizId) => {
           </div>
 
           {tipoUsuario === 'ROLE_PROFESSOR' && (
-            <Link href={`/disciplinas/${disciplinaId}/quiz/cadastro`}>
-              <Button variant="purple" size="md">
-                Adicionar Quiz à disciplina
-              </Button>
-            </Link>
+            <div className="flex gap-4">
+              <Link href={`/disciplinas/${disciplinaId}/quiz/cadastro`}>
+                <Button variant="purple" size="md">
+                  Adicionar Quiz à disciplina
+                </Button>
+              </Link>
+              <Link href={`/professor/disciplina/${disciplinaId}/questoes`}>
+                <Button variant="purple" size="md">
+                  Listar Questões
+                </Button>
+              </Link>
+            </div>
           )}
         </section>
 

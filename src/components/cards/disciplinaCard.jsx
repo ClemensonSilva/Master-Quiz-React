@@ -15,12 +15,16 @@ const DisciplineCard = ({ disciplina, linkDestino, children }) => {
         {disciplina.descricao || 'Descrição da disciplina'}
       </p>
       
-      <Link href={`${linkDestino}/${disciplina.id}`}>
-        <Button variant="primary" fullWidth size="sm">
-          Detalhes
-        </Button>
-      </Link>
-      {children}
+     <div className="flex flex-col gap-4">
+  <Link href={`${linkDestino}/${disciplina.id}`}>
+    <Button variant="primary" fullWidth size="sm">
+      Detalhes
+    </Button>
+  </Link>
+
+  {children}
+</div>
+
     </div>
   );
 };

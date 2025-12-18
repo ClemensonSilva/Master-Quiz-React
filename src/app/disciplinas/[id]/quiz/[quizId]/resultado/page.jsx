@@ -14,14 +14,19 @@ import { useQuizResult } from '@/hooks/useQuizResult';
 export default function ResultadoPage() {
   const params = useParams();
   
+  // 1. Extraímos os IDs da URL (baseado na estrutura de pastas [id] e [quizId])
+  const disciplinaId = params?.id; 
+  const quizId = params?.quizId;
+
+  // 2. PASSAMOS O disciplinaId COMO SEGUNDO ARGUMENTO PARA O HOOK
   const { 
     loading, 
     error,
-    resultData, // Dados brutos do backend (pontuação, tempo, ...)
+    resultData, 
     stats, 
     feedback, 
     actions 
-  } = useQuizResult(params?.id);
+  } = useQuizResult(quizId, disciplinaId); 
 
   if (loading) {
       return (
@@ -39,8 +44,11 @@ export default function ResultadoPage() {
         <div className="min-h-screen flex flex-col bg-white">
             <Header isLoggedIn={true} userName="Aluno" userType="aluno" />
             <div className="flex-grow flex flex-col items-center justify-center gap-4">
-                <p className="text-red-600">{error}</p>
-                <Button onClick={actions.goDashboard}>Voltar ao Início</Button>
+                <p className="text-red-600 font-medium">{error}</p>
+                <div className="flex gap-4">
+                   <Button onClick={actions.goDashboard} variant="outline">Voltar ao Dashboard</Button>
+                   <Button onClick={actions.continue} variant="purple">Voltar à Disciplina</Button>
+                </div>
             </div>
         </div>
       );
@@ -88,8 +96,8 @@ export default function ResultadoPage() {
           </Button>
 
           <Button 
-            variant="purple" 
-            className="w-40 bg-purple-600 hover:bg-purple-700 text-white" 
+            variant="outline" 
+            className="w-40 border-purple-600 text-purple-600 hover:bg-purple-50" 
             onClick={actions.continue}
           >
             Continuar

@@ -51,7 +51,7 @@ export default function DashboardDisciplinaPage() {
             const alunoData = await resAluno.json();
             const discData = await resDisc.json();
             const quizData = await resQuiz.json();
-            console.log('Quiz Data:', quizData);
+            console.log('Quiz Data:', alunoData);
             const quizzesFormatados = quizData.map(q => ({
                 id: q.id,
                 title: q.titulo, 
@@ -80,7 +80,6 @@ export default function DashboardDisciplinaPage() {
   const quizzesFiltrados = quizzes.filter(q => 
     q.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header isLoggedIn={true} userName={aluno.nome || 'Aluno'} userType="aluno" />
@@ -102,6 +101,8 @@ export default function DashboardDisciplinaPage() {
             hasAluno={!!aluno.id}
             quizzes={quizzesFiltrados} 
             searchTerm={searchTerm}
+            linkAcao={"answer"}
+            buttonText={"Responder"}
             texts={{
               loading: 'Carregando seus quizzes...',
               empty: 'Nenhum quiz encontrado nesta disciplina.',
